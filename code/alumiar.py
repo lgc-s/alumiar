@@ -1,10 +1,24 @@
-usuarios = {}
 from re import fullmatch
+usuarios = {}
 id = 1
 
 def listar_usuarios():
     for id, usuario in usuarios.items():
         print(f"ID: {id}\nNome: {usuario["nome"]}\nEmail: {usuario["email"]}")
+
+def validar_telefone(telefone):
+    regex = r'^\d{2}9\d{8}$'
+    if fullmatch(regex,telefone):
+        return True
+    else:
+        return False
+
+def validar_idade(idade):
+    regex = r'^(1[0-1][0-9]|120|[1-9][0-9]|[1-9])$'
+    if fullmatch(regex,idade):
+        return True
+    else:
+        return False
 
 def validar_email(email):
     
@@ -29,9 +43,19 @@ def cadastrar():
 
     nome = input("- Nome: ").strip().title()
     idade = (input("- Idade: ")).replace(" ","")
+
+    while validar_idade(idade) == False:
+        idade = (input("Idade Inválida, tente novamente...\n - Idade: ")).replace(" ","")
+
     tipo_artesanato = input("-Tipo de Artesanato: ").strip().title()
+
     bairro  = input("- Bairro: ").strip().title()
-    telefone = (input("- Telefone: ")).replace(" ","")
+
+    telefone = (input("- Telefone (Ex.: 81999999999): ")).replace(" ","")
+
+    while validar_telefone(telefone) == False:
+        telefone = (input("Telefone Inválido, tente novamente...\n- Telefone (Ex.: 81999999999): ")).replace(" ","")
+
     formalizacao = input("- Formalizada? (S/N): ").strip().upper()
 
     while formalizacao not in "SN":
