@@ -23,14 +23,17 @@ Ver:
 
 Editar:
 
-* telefone  
+* nome  
+* idade  
+* tipo de artesanato  
 * bairro  
-* formalização  
-* tipo de artesanato
+* telefone  
+* formalizada ou não
 
 ### **DELETE**
 
-Remover cadastro.
+* Remover cadastro.
+* Remover Eventos
 
 ## **2\. Calculadora de Precificação**
 
@@ -68,8 +71,7 @@ Exemplo de fluxo:
 3. Buscar artesã  
 4. Editar cadastro  
 5. Remover cadastro  
-6. Calculadora de preço  
-7. Ver cursos  
-8. Ver eventos  
-9. Sair
+6. Calculadora de preço    
+7. Ver eventos  
+8. Sair
 
