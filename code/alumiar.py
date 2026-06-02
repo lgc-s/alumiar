@@ -28,10 +28,10 @@ def cadastrar():
     print("\n==== CADASTRO ====\n")
 
     nome = input("- Nome: ").strip().title()
-    idade = int(input("- Idade: "))
+    idade = (input("- Idade: ")).replace(" ","")
     tipo_artesanato = input("-Tipo de Artesanato: ").strip().title()
     bairro  = input("- Bairro: ").strip().title()
-    telefone = int(input("- Telefone: "))
+    telefone = (input("- Telefone: ")).replace(" ","")
     formalizacao = input("- Formalizada? (S/N): ").strip().upper()
 
     while formalizacao not in "SN":
