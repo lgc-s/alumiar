@@ -34,6 +34,9 @@ def cadastrar():
     telefone = int(input("- Telefone: "))
     formalizacao = input("- Formalizada? (S/N): ").strip().upper()
 
+    while formalizacao not in "SN":
+        formalizacao = input("Resposta Inválida, tente novamente...\n- Formalizada? (S/N): ").strip().upper()
+
     email = input("- Email: ").strip()
     while validar_email(email) == False:
         email = input("\nEmail inválido, tente novamente...\n- Email: ")
