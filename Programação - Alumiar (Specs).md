@@ -1,77 +1,95 @@
-## **1\. Cadastro de Artesãs (CRUD principal)**
+# Sistema de Apoio às Artesãs
 
-### **CREATE**
+## Funcionalidades
 
-Cadastrar artesã:
+### 1. Cadastro de Artesãs (CRUD)
 
-* nome  
-* idade  
-* tipo de artesanato  
-* bairro  
-* telefone  
-* formalizada ou não
+####  Cadastrar Artesã
 
-### **READ**
+Permite registrar novas artesãs com as seguintes informações:
 
-Ver:
+* Nome
+* Idade
+* Tipo de artesanato
+* Bairro
+* Telefone
+* Situação de formalização (formalizada ou não)
 
-* todas as artesãs cadastradas  
-* buscar por nome  
-* buscar por tipo de artesanato
+#### Consultar Artesãs
 
-### **UPDATE**
+Permite:
 
-Editar:
+* Visualizar todas as artesãs cadastradas
+* Buscar artesã por nome
 
-* nome  
-* idade  
-* tipo de artesanato  
-* bairro  
-* telefone  
-* formalizada ou não
+####  Atualizar Cadastro
 
-### **DELETE**
+Permite editar:
 
-* Remover cadastro.
-* Remover Eventos
+* Telefone
+* Bairro
+* Situação de formalização
+* Tipo de artesanato
 
-## **2\. Calculadora de Precificação**
+#### Remover Cadastro
 
-Usuária informa:
+Permite excluir uma artesã do sistema.
 
-* custo dos materiais  
-* horas gastas  
-* custo extra
+---
 
-O sistema:
+### 2. Calculadora de Precificação
 
-* calcula preço ideal  
-* calcula lucro.
+A artesã informa:
 
-## **3\. Eventos e Feiras**
+* Custo dos materiais
+* Horas gastas na produção
+* Custos extras
 
-Cadastrar:
+O sistema calcula automaticamente:
 
-* nome do evento  
-* local  
-* data
+* Preço ideal de venda
+* Lucro estimado
 
-E:
+---
 
-* listar eventos futuros.
+### 3. Eventos e Feiras (CRUD)
 
-## 
+#### Cadastrar Evento
 
-## **Menu principal**
+Informações cadastradas:
 
-Exemplo de fluxo:
+* Nome do evento
+* Local
+* Data
 
-1. Cadastrar artesã  
-2. Listar artesãs  
-3. Buscar artesã  
-4. Editar cadastro  
-5. Remover cadastro  
-6. Calculadora de preço    
-7. Ver eventos  
-8. Sair
+#### Consultar Eventos
 
+Permite visualizar os eventos e feiras futuros cadastrados no sistema.
+
+---
+
+## Menu Principal
+
+### Fluxo do Administrador
+
+* Adicionar eventos
+* Atualizar eventos
+* Excluir eventos
+* Adicionar artesãs
+* Atualizar artesãs
+* Excluir artesãs
+
+### Fluxo da Artesã
+
+* Realizar cadastro
+* Visualizar lista de artesãs
+* Buscar artesã
+* Editar cadastro
+* Remover cadastro
+* Utilizar calculadora de precificação
+* Visualizar eventos e feiras
+* Sair do sistema
+
+---
+
+Promover a autonomia econômica das artesãs por meio de uma plataforma simples e acessível, permitindo o gerenciamento de cadastros, divulgação de eventos e apoio na definição de preços para seus produtos.
