@@ -91,5 +91,3 @@ Permite visualizar os eventos e feiras futuros cadastrados no sistema.
 * Sair do sistema
 
 ---
-
-Promover a autonomia econômica das artesãs por meio de uma plataforma simples e acessível, permitindo o gerenciamento de cadastros, divulgação de eventos e apoio na definição de preços para seus produtos.
