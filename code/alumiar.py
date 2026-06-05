@@ -13,6 +13,8 @@ usuarios = {}
 # Contador global de ID, incrementado a cada novo cadastro
 id = 1
 
+# Variável global que armazena o ID registrado durante após login
+id_logado = None
 
 def listar_usuarios():
     """Exibe no terminal todos os usuários cadastrados com ID, nome e e-mail."""
@@ -131,7 +133,7 @@ def cadastrar():
     while validar_idade(idade) == False:
         idade = (input("Idade Inválida, tente novamente...\n - Idade: ")).replace(" ","")
 
-    tipo_artesanato = input("-Tipo de Artesanato: ").strip().title()
+    tipo_artesanato = input("- Tipo de Artesanato: ").strip().title()
 
     bairro  = input("- Bairro: ").strip().title()
 
@@ -185,17 +187,42 @@ def menu_dev():
                   
 1 - Usuários
 2 - Eventos
+0 - Sair
 
 Escolha: """).strip()
     
         if opcao == "1":
             print("Gerenciamento de Usuários")
-        if opcao == "2":
+        elif opcao == "2":
             print("Gerenciamento de Eventos")
+        elif opcao == "0":
+            break
+        else:
+            print("Comando inválido, tente novamente...")
 
 def menu_user():
     print("menu_usuario")
 
+def login():
+
+    global id_logado
+
+    while True:
+        
+        print("\n==== Login ====\n")
+        email = input("- Email: ").strip()
+        senha = input("- Senha: ").strip()
+
+        if email == "ADM" and senha == "123":
+            menu_dev()
+        else:
+            for id, usuario in usuarios.items():
+                if usuario["email"] == email and usuario["senha"] == senha:
+                    id_logado = id
+                    menu_user()
+                    return
+        print("Email ou Senha inválidos, tente novamente...")
+        
 def menu_inicial():
     """
     Exibe o menu principal em loop e direciona para as funcionalidades do sistema.
@@ -223,9 +250,7 @@ Escolha: """).strip()
         if opcao == "1":
             cadastrar()
         elif opcao == "2":
-            print("login")
-        elif opcao == "3":
-            listar_usuarios()
+            login()
         elif opcao == "0":
             break  # Encerra o loop e finaliza o programa
         else:
