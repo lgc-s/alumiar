@@ -1,6 +1,6 @@
 # ============================================================
-# CRUD de Cadastro de Artesãos
-# Gerencia o cadastro, listagem e login de usuários artesãos,
+# CRUD de Cadastro de Artesãs
+# Gerencia o cadastro, listagem e login de usuárias artesãs,
 # com validações de idade, telefone e e-mail via regex.
 # ============================================================
 
@@ -149,13 +149,14 @@ def cadastrar():
 
     email = input("- Email: ").strip()
 
-    # Rejeita e-mails com formato inválido
-    while validar_email(email) == False:
-        email = input("\nEmail inválido, tente novamente...\n- Email: ")
-
-    # Rejeita e-mails já vinculados a outro usuário
-    while verificar_email_existente(email) == True:
-        email = input("\nEmail já cadastrado, tente novamente...\n- Email: ")
+    # Loop para validar o email
+    while True:
+        if not validar_email(email):
+            email = input("\nEmail inválido, tente novamente...\n- Email: ")
+        elif verificar_email_existente(email):
+            email = input("\nEmail já cadastrado, tente novamente...\n- Email: ")
+        else:
+            break  # Email válido E disponível → sai do loop
 
     senha = input("- Senha: ").strip()
 
@@ -174,23 +175,46 @@ def cadastrar():
     # Avança o contador para o próximo cadastro
     id += 1
 
+def menu_dev():
+    while True:
+        opcao = input("""\n============================================================
 
-def menu():
+                ALUMIAR APP (Menu Administrador)
+
+============================================================
+                  
+1 - Usuários
+2 - Eventos
+
+Escolha: """).strip()
+    
+        if opcao == "1":
+            print("Gerenciamento de Usuários")
+        if opcao == "2":
+            print("Gerenciamento de Eventos")
+
+def menu_user():
+    print("menu_usuario")
+
+def menu_inicial():
     """
     Exibe o menu principal em loop e direciona para as funcionalidades do sistema.
 
     Opções disponíveis:
         1 - Cadastrar novo usuário
-        2 - Login (a implementar)
-        3 - Listar todos os usuários
+        2 - Login
         0 - Encerrar o programa
     """
     while True:
 
-        opcao = input("""\n======== MENU ========
-1 - Cadastrar
+        opcao = input("""\n============================================================
+
+                ALUMIAR APP (Menu Inicial)
+
+============================================================
+
+1 - Cadastro
 2 - Login
-3 - Listar Usuários
 0 - Sair
             
 Escolha: """).strip()
@@ -207,6 +231,5 @@ Escolha: """).strip()
         else:
             print("Comando inválido, tente novamente...")
 
-
 # Ponto de entrada do programa
-menu()
+menu_inicial()
