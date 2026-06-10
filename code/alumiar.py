@@ -684,9 +684,52 @@ Escolha: """).strip()
         else:
             print("Comando inválido, tente novamente...")
 
+def menu_artesas():
+    print("Menu Artesãs")
+
+def menu_eventos():
+    print("Menu Eventos")
+
+def menu_cursos():
+    print("Menu Cursos")
+
+def calculadora_precos():
+    print("Calculadora de Preços")
+
+def forum_apoio():
+    print("Fórum de Apoio")
 
 def menu_user():
-    print("menu_usuario")
+    while True:
+        opcao = input("""\n============================================================
+
+                ALUMIAR APP (Menu Usuário)
+
+============================================================
+
+1 - Artesãs
+2 - Eventos
+3 - Cursos
+4 - Calculadora de Preços
+5 - Fórum de Apoio
+0 - Sair
+
+Escolha: """).strip()
+
+        if opcao == "1":
+            menu_artesas()
+        elif opcao == "2":
+            menu_eventos()
+        elif opcao == "3":
+            menu_cursos()
+        elif opcao == "4":
+            calculadora_precos()
+        elif opcao == "5":
+            forum_apoio()
+        elif opcao == "0":
+            break
+        else:
+            print("Comando inválido, tente novamente...")
 
 
 def login():
