@@ -710,11 +710,13 @@ def login():
                     return
         print("Email ou Senha inválidos, tente novamente...")
 
-        continuar = input("Tentar novamente? [S/N]: \n")
-        if continuar == "N": break
+        continuar = input("Tentar novamente? [S/N]: \n").strip().upper()
         while continuar not in ("S", "N"):
             continuar = input(
             "Resposta Inválida, tente novamente...\n- Tentar novamente? [S/N]): ").strip().upper()
+            
+        if continuar == "N": 
+            break
 
 def menu_inicial():
     """
