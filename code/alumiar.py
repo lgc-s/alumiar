@@ -40,26 +40,25 @@ def validar_telefone(telefone):
         return False
 
 
-def validar_idade(idade):
+def validar_e_calcular_idade(data_str):
     """
-    Valida se a idade informada está no intervalo permitido (1 a 120).
-
-    A regex cobre quatro faixas:
-        - [1-9]       → 1 a 9
-        - [1-9][0-9]  → 10 a 99
-        - 1[0-1][0-9] → 100 a 119
-        - 120         → exatamente 120
-
-    Args:
-        idade (str): Idade como string contendo apenas dígitos.
-
-    Returns:
-        bool: True se válida, False caso contrário.
+    Valida a data de nascimento (DD/MM/AAAA) e calcula a idade.
+    Retorna a idade (int) se for válida (entre 1 e 120 anos), ou False caso contrário.
     """
-    regex = r'^(1[0-1][0-9]|120|[1-9][0-9]|[1-9])$'
-    if fullmatch(regex, idade):
-        return True
-    else:
+    try:
+        # Tenta converter a string no formato de data brasileira
+        data_nascimento = datetime.strptime(data_str, "%d/%m/%Y").date()
+        hoje = date.today() # Pega a data exata de hoje no calendário do PC
+        
+        # Cálculo exato da idade considerando o mês e o dia atual
+        idade = hoje.year - data_nascimento.year - ((hoje.month, hoje.day) < (data_nascimento.month, data_nascimento.day))
+        
+        # Mantém a sua regra de negócio original (idade entre 1 e 120 anos)
+        if 1 <= idade <= 120:
+            return idade
+        return False
+    except ValueError:
+        # Se o usuário digitar letras ou uma data inválida (ex: 30/02/2000)
         return False
 
 
@@ -124,12 +123,13 @@ def cadastrar():
 
     nome = input("- Nome: ").strip().title()
 
-    idade = (input("- Idade: ")).replace(" ", "")
-
-    # Rejeita a entrada enquanto a idade não passar na validação
-    while validar_idade(idade) == False:
-        idade = (input("Idade Inválida, tente novamente...\n - Idade: ")
-                 ).replace(" ", "")
+    while True:
+        data_nasci_input = input("- Data de Nascimento (DD/MM/AAAA): ").strip()
+        idade_calculada = validar_e_calcular_idade(data_nasci_input)
+        
+        if idade_calculada is not False:
+            break  # Data válida e idade dentro do limite!
+        print("Data inválida ou idade fora do permitido (1-120 anos). Tente novamente...\n")
 
     tipo_artesanato = input("- Tipo de Artesanato: ").strip().title()
 
@@ -166,7 +166,7 @@ def cadastrar():
     # Salva todos os dados do usuário usando o ID atual como chave
     usuarios[id] = {
         "nome": nome,
-        "idade": idade,
+        "idade": idade_calculada,
         "tipo_artesanato": tipo_artesanato,
         "bairro": bairro,
         "telefone": telefone,
@@ -230,7 +230,7 @@ def editar_usuario():
         novo = input(f"- Idade [{u['idade']}]: ").replace(" ", "")
         if not novo:
             break
-        if validar_idade(novo):
+        if validar_e_calcular_idade(novo):
             u['idade'] = novo
             break
         print("  Idade inválida, tente novamente...")
