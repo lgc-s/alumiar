@@ -144,7 +144,7 @@ def cadastrar():
     formalizacao = input("- Formalizada? (S/N): ").strip().upper()
 
     # Aceita apenas "S" ou "N" como resposta válida
-    while formalizacao not in "SN":
+    while formalizacao not in ("S", "N"):
         formalizacao = input(
             "Resposta Inválida, tente novamente...\n- Formalizada? (S/N): ").strip().upper()
 
@@ -710,6 +710,11 @@ def login():
                     return
         print("Email ou Senha inválidos, tente novamente...")
 
+        continuar = input("Tentar novamente? [S/N]: \n")
+        if continuar == "N": break
+        while continuar not in ("S", "N"):
+            continuar = input(
+            "Resposta Inválida, tente novamente...\n- Tentar novamente? [S/N]): ").strip().upper()
 
 def menu_inicial():
     """
