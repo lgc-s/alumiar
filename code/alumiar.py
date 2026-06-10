@@ -5,6 +5,7 @@
 # ============================================================
 
 from re import fullmatch
+from datetime import datetime, date
 
 # Dicionário principal que armazena todos os usuários cadastrados.
 # Chave: ID inteiro | Valor: dicionário com os dados do usuário
