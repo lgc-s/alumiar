@@ -9,17 +9,14 @@ from re import fullmatch
 # Dicionário principal que armazena todos os usuários cadastrados.
 # Chave: ID inteiro | Valor: dicionário com os dados do usuário
 usuarios = {}
+cursos = []
+eventos = []
 
 # Contador global de ID, incrementado a cada novo cadastro
 id = 1
 
 # Variável global que armazena o ID registrado durante após login
 id_logado = None
-
-def listar_usuarios():
-    """Exibe no terminal todos os usuários cadastrados com ID, nome e e-mail."""
-    for id, usuario in usuarios.items():
-        print(f"ID: {id}\nNome: {usuario["nome"]}\nEmail: {usuario["email"]}")
 
 
 def validar_telefone(telefone):
@@ -36,7 +33,7 @@ def validar_telefone(telefone):
         bool: True se válido, False caso contrário.
     """
     regex = r'^\d{2}9\d{8}$'
-    if fullmatch(regex,telefone):
+    if fullmatch(regex, telefone):
         return True
     else:
         return False
@@ -59,7 +56,7 @@ def validar_idade(idade):
         bool: True se válida, False caso contrário.
     """
     regex = r'^(1[0-1][0-9]|120|[1-9][0-9]|[1-9])$'
-    if fullmatch(regex,idade):
+    if fullmatch(regex, idade):
         return True
     else:
         return False
@@ -79,7 +76,7 @@ def validar_email(email):
         bool: True se válido, False caso contrário.
     """
     regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,7}$'
-    if fullmatch(regex,email):
+    if fullmatch(regex, email):
         return True
     else:
         return False
@@ -101,8 +98,7 @@ def verificar_email_existente(email):
     for usuario in usuarios.values():
         if usuario["email"] == email:
             return True
-        else:
-            return False
+    return False
 
 
 def cadastrar():
@@ -127,27 +123,30 @@ def cadastrar():
 
     nome = input("- Nome: ").strip().title()
 
-    idade = (input("- Idade: ")).replace(" ","")
+    idade = (input("- Idade: ")).replace(" ", "")
 
     # Rejeita a entrada enquanto a idade não passar na validação
     while validar_idade(idade) == False:
-        idade = (input("Idade Inválida, tente novamente...\n - Idade: ")).replace(" ","")
+        idade = (input("Idade Inválida, tente novamente...\n - Idade: ")
+                 ).replace(" ", "")
 
     tipo_artesanato = input("- Tipo de Artesanato: ").strip().title()
 
-    bairro  = input("- Bairro: ").strip().title()
+    bairro = input("- Bairro: ").strip().title()
 
-    telefone = (input("- Telefone (Ex.: 81999999999): ")).replace(" ","")
+    telefone = (input("- Telefone (Ex.: 81999999999): ")).replace(" ", "")
 
     # Rejeita a entrada enquanto o telefone não passar na validação
     while validar_telefone(telefone) == False:
-        telefone = (input("Telefone Inválido, tente novamente...\n- Telefone (Ex.: 81999999999): ")).replace(" ","")
+        telefone = (input(
+            "Telefone Inválido, tente novamente...\n- Telefone (Ex.: 81999999999): ")).replace(" ", "")
 
     formalizacao = input("- Formalizada? (S/N): ").strip().upper()
 
     # Aceita apenas "S" ou "N" como resposta válida
     while formalizacao not in "SN":
-        formalizacao = input("Resposta Inválida, tente novamente...\n- Formalizada? (S/N): ").strip().upper()
+        formalizacao = input(
+            "Resposta Inválida, tente novamente...\n- Formalizada? (S/N): ").strip().upper()
 
     email = input("- Email: ").strip()
 
@@ -156,7 +155,8 @@ def cadastrar():
         if not validar_email(email):
             email = input("\nEmail inválido, tente novamente...\n- Email: ")
         elif verificar_email_existente(email):
-            email = input("\nEmail já cadastrado, tente novamente...\n- Email: ")
+            email = input(
+                "\nEmail já cadastrado, tente novamente...\n- Email: ")
         else:
             break  # Email válido E disponível → sai do loop
 
@@ -177,7 +177,488 @@ def cadastrar():
     # Avança o contador para o próximo cadastro
     id += 1
 
-def menu_dev():
+
+def listar_usuarios():
+    """Exibe no terminal todos os usuários cadastrados com ID, nome e e-mail."""
+    if not usuarios:
+        print("\n Nenhum usuário cadastrado.")
+        return
+    for id, usuario in usuarios.items():
+        print(f"""
+ID: {id}
+  Nome:        {usuario['nome']}
+  Idade:       {usuario['idade']}
+  Artesanato:  {usuario['tipo_artesanato']}
+  Bairro:      {usuario['bairro']}
+  Telefone:    {usuario['telefone']}
+  Formalizada: {usuario['formalizacao']}
+  Email:       {usuario['email']}""")
+
+
+def editar_usuario():
+    """
+    Permite ao administrador editar qualquer campo de um usuário pelo ID.
+    Pressionar Enter sem digitar nada mantém o valor atual do campo.
+    """
+    if not usuarios:
+        print("\nNenhum usuário cadastrado.")
+        return
+
+    listar_usuarios()
+
+    try:
+        id_edit = int(input("\nID do usuário a editar: ").strip())
+    except ValueError:
+        print("ID inválido.")
+        return
+
+    if id_edit not in usuarios:
+        print("Usuário não encontrado.")
+        return
+
+    u = usuarios[id_edit]
+    print(f"\nEditando '{u['nome']}' — Enter para manter o valor atual.\n")
+
+    # ── Nome ──────────────────────────────────────────────────────────────────
+    novo = input(f"- Nome [{u['nome']}]: ").strip()
+    if novo:
+        u['nome'] = novo.title()
+
+    # ── Idade ─────────────────────────────────────────────────────────────────
+    while True:
+        novo = input(f"- Idade [{u['idade']}]: ").replace(" ", "")
+        if not novo:
+            break
+        if validar_idade(novo):
+            u['idade'] = novo
+            break
+        print("  Idade inválida, tente novamente...")
+
+    # ── Tipo de artesanato ────────────────────────────────────────────────────
+    novo = input(f"- Tipo de Artesanato [{u['tipo_artesanato']}]: ").strip()
+    if novo:
+        u['tipo_artesanato'] = novo.title()
+
+    # ── Bairro ────────────────────────────────────────────────────────────────
+    novo = input(f"- Bairro [{u['bairro']}]: ").strip()
+    if novo:
+        u['bairro'] = novo.title()
+
+    # ── Telefone ──────────────────────────────────────────────────────────────
+    while True:
+        novo = input(f"- Telefone [{u['telefone']}]: ").replace(" ", "")
+        if not novo:
+            break
+        if validar_telefone(novo):
+            u['telefone'] = novo
+            break
+        print("  Telefone inválido, tente novamente...")
+
+    # ── Formalização ──────────────────────────────────────────────────────────
+    while True:
+        novo = input(
+            f"- Formalizada? (S/N) [{u['formalizacao']}]: ").strip().upper()
+        if not novo:
+            break
+        if novo in ("S", "N"):
+            u['formalizacao'] = novo
+            break
+        print("  Resposta inválida, tente novamente...")
+
+    # ── Email ─────────────────────────────────────────────────────────────────
+    while True:
+        novo = input(f"- Email [{u['email']}]: ").strip()
+        if not novo:
+            break
+        if not validar_email(novo):
+            print("  Email inválido, tente novamente...")
+            continue
+        # Verifica duplicata ignorando o próprio usuário
+        duplicado = any(
+            dados['email'] == novo and uid != id_edit
+            for uid, dados in usuarios.items()
+        )
+        if duplicado:
+            print("  Email já cadastrado, tente novamente...")
+            continue
+        u['email'] = novo
+        break
+
+    # ── Senha ─────────────────────────────────────────────────────────────────
+    novo = input("- Nova senha (Enter para manter): ").strip()
+    if novo:
+        u['senha'] = novo
+
+    print(f"\nUsuário '{u['nome']}' atualizado com sucesso!")
+
+
+def deletar_usuario():
+    """
+    Remove permanentemente um usuário do dicionário pelo ID,
+    após confirmação do administrador.
+    """
+    if not usuarios:
+        print("\nNenhum usuário cadastrado.")
+        return
+
+    listar_usuarios()
+
+    try:
+        id_del = int(input("\nID do usuário a deletar: ").strip())
+    except ValueError:
+        print("ID inválido.")
+        return
+
+    if id_del not in usuarios:
+        print("Usuário não encontrado.")
+        return
+
+    nome = usuarios[id_del]['nome']
+    confirmacao = input(
+        f"\nDeletar '{nome}'? Essa ação é irreversível. (S/N): ").strip().upper()
+
+    if confirmacao == "S":
+        del usuarios[id_del]
+        print(f"Usuário '{nome}' deletado com sucesso!")
+    else:
+        print("Operação cancelada.")
+
+
+def menu_usuarios_adm():
+    """Submenu CRUD de usuários acessado pelo administrador."""
+    while True:
+        opcao = input("""\n============================================================
+
+            ALUMIAR APP (Gerenciamento de Usuários)
+
+============================================================
+
+1 - Listar Usuários
+2 - Cadastrar Usuário
+3 - Editar Usuário
+4 - Deletar Usuário
+0 - Voltar
+
+Escolha: """).strip()
+
+        if opcao == "1":
+            listar_usuarios()
+        elif opcao == "2":
+            cadastrar()
+        elif opcao == "3":
+            editar_usuario()
+        elif opcao == "4":
+            deletar_usuario()
+        elif opcao == "0":
+            break
+        else:
+            print("Comando inválido, tente novamente...")
+
+
+def cadastrar_curso():
+
+    print("\n=== CADASTRAR CURSO ===")
+
+    # Recebe as informações do curso
+    titulo = input("Título do curso: ")
+    tutor = input("Tutor responsável: ")
+    duracao = input("Duração do curso: ")
+    while True:
+        try:
+            vagas = int(input("Quantidade de vagas: "))
+            if vagas <= 0:
+                print("A quantidade de vagas deve ser maior que zero...\n")
+                continue
+            break
+        except ValueError:
+            print("Quantidade inválida, digite apenas números inteiros...\n")
+
+    # Criação do dicionário que representa um curso
+    curso = {
+        "titulo": titulo,
+        "tutor": tutor,
+        "duracao": duracao,
+        "vagas": vagas
+    }
+
+    # Adiciona o curso à lista de cursos
+    cursos.append(curso)
+
+    print("\nCurso cadastrado com sucesso!")
+
+
+def listar_cursos():
+
+    print("\n=== CURSOS DISPONÍVEIS ===")
+
+    # Verifica se existem cursos cadastrados
+    if not cursos:
+        print("\nNenhum curso cadastrado.")
+        return
+
+    # Percorre a lista exibindo cada curso
+    for n, curso in enumerate(cursos, start=1):
+
+        print(f"\nCurso {n}")
+        print(f"Título: {curso['titulo']}")
+        print(f"Tutor: {curso['tutor']}")
+        print(f"Duração: {curso['duracao']}")
+        print(f"Vagas: {curso['vagas']}")
+
+
+def editar_curso():
+
+    print("\n=== EDITAR CURSO ===")
+
+    # Verifica se existe algum curso cadastrado
+    if len(cursos) == 0:
+        print("Nenhum curso cadastrado.")
+        return
+
+    # Mostra os cursos disponíveis
+    listar_cursos()
+
+    # Solicita o curso que será editado
+    indice = int(input("\nDigite o número do curso: ")) - 1
+
+    # Verifica se o índice informado é válido
+    if 0 <= indice < len(cursos):
+
+        # Atualiza os dados do curso
+        cursos[indice]["titulo"] = input("Novo título: ")
+        cursos[indice]["tutor"] = input("Novo tutor: ")
+        cursos[indice]["duracao"] = input("Nova duração: ")
+        while True:
+            try:
+                cursos[indice]["vagas"] = int(
+                    input("Nova quantidade de vagas: "))
+                if cursos[indice]["vagas"] < 0:
+                    print("A quantidade de vagas não pode ser negativa...")
+                    continue
+                break
+            except ValueError:
+                print("Quantidade inválida, digite apenas números inteiros...")
+
+        print("\nCurso atualizado com sucesso!")
+
+    else:
+        print("Curso não encontrado.")
+
+
+def excluir_curso():
+
+    print("\n=== EXCLUIR CURSO ===")
+
+    # Verifica se existem cursos cadastrados
+    if len(cursos) == 0:
+        print("Nenhum curso cadastrado.")
+        return
+
+    # Exibe a lista de cursos
+    listar_cursos()
+
+    # Solicita o número do curso que será removido
+    indice = int(input("\nDigite o número do curso: ")) - 1
+
+    # Verifica se o índice informado é válido
+    if 0 <= indice < len(cursos):
+
+        # Remove o curso da lista
+        cursos.pop(indice)
+
+        print("\nCurso removido com sucesso!")
+
+    else:
+        print("Curso não encontrado.")
+
+
+def menu_cursos_adm():
+    while True:
+        opcao = input("""\n============================================================
+
+              ALUMIAR APP (Gerenciamento de Cursos)
+
+============================================================
+
+1 - Listar Cursos
+2 - Cadastrar Curso
+3 - Editar Curso
+4 - Deletar Curso
+0 - Voltar
+
+Escolha: """).strip()
+
+        if opcao == "1":
+            listar_cursos()
+        elif opcao == "2":
+            cadastrar_curso()
+        elif opcao == "3":
+            editar_curso()
+        elif opcao == "4":
+            excluir_curso()
+        elif opcao == "0":
+            break
+        else:
+            print("Comando inválido, tente novamente...")
+
+
+def listar_eventos():
+    if not eventos:
+        print("\nNenhum evento cadastrado.")
+        return
+    for indice, evento in enumerate(eventos):
+        print(f"""
+ID: {indice + 1}
+  Título:  {evento['titulo']}
+  Data:    {evento['data']}
+  Horário: {evento['horario']}
+  Local:   {evento['local']}
+  Vagas:   {evento['vagas']}""")
+
+
+def cadastrar_evento():
+    print("\n==== CADASTRAR EVENTO ====\n")
+
+    titulo = input("- Título: ").strip().title()
+    data = input("- Data (DD/MM/AAAA): ").strip()
+    horario = input("- Horário (HH:MM): ").strip()
+    local = input("- Local: ").strip().title()
+
+    while True:
+        try:
+            vagas = int(input("- Quantidade de vagas: "))
+            if vagas <= 0:
+                print("  A quantidade deve ser maior que zero...")
+                continue
+            break
+        except ValueError:
+            print("  Quantidade inválida, digite apenas números inteiros...")
+
+    eventos.append({
+        "titulo":  titulo,
+        "data":    data,
+        "horario": horario,
+        "local":   local,
+        "vagas":   vagas
+    })
+
+    print("\nEvento cadastrado com sucesso!")
+
+
+def editar_evento():
+    if not eventos:
+        print("\nNenhum evento cadastrado.")
+        return
+
+    listar_eventos()
+
+    try:
+        id_edit = int(input("\nID do evento a editar: ").strip())
+        indice = id_edit - 1
+    except ValueError:
+        print("ID inválido.")
+        return
+
+    if indice < 0 or indice >= len(eventos):
+        print("Evento não encontrado.")
+        return
+
+    e = eventos[indice]
+    print(f"\nEditando '{e['titulo']}' — Enter para manter o valor atual.\n")
+
+    novo = input(f"- Título [{e['titulo']}]: ").strip()
+    if novo:
+        e['titulo'] = novo.title()
+
+    novo = input(f"- Data [{e['data']}]: ").strip()
+    if novo:
+        e['data'] = novo
+
+    novo = input(f"- Horário [{e['horario']}]: ").strip()
+    if novo:
+        e['horario'] = novo
+
+    novo = input(f"- Local [{e['local']}]: ").strip()
+    if novo:
+        e['local'] = novo.title()
+
+    while True:
+        try:
+            novo = input(f"- Vagas [{e['vagas']}]: ").strip()
+            if not novo:
+                break
+            novo = int(novo)
+            if novo <= 0:
+                print("  A quantidade deve ser maior que zero...")
+                continue
+            e['vagas'] = novo
+            break
+        except ValueError:
+            print("  Quantidade inválida, digite apenas números inteiros...")
+
+    print(f"\nEvento '{e['titulo']}' atualizado com sucesso!")
+
+
+def deletar_evento():
+    if not eventos:
+        print("\nNenhum evento cadastrado.")
+        return
+
+    listar_eventos()
+
+    try:
+        id_del = int(input("\nID do evento a deletar: ").strip())
+        indice = id_del - 1
+    except ValueError:
+        print("ID inválido.")
+        return
+
+    if indice < 0 or indice >= len(eventos):
+        print("Evento não encontrado.")
+        return
+
+    titulo = eventos[indice]['titulo']
+    confirmacao = input(
+        f"\nDeletar '{titulo}'? Essa ação é irreversível. (S/N): ").strip().upper()
+
+    if confirmacao == "S":
+        eventos.pop(indice)
+        print(f"Evento '{titulo}' deletado com sucesso!")
+    else:
+        print("Operação cancelada.")
+
+
+def menu_eventos_adm():
+    while True:
+        opcao = input("""\n============================================================
+
+              ALUMIAR APP (Gerenciamento de Eventos)
+
+============================================================
+
+1 - Listar Eventos
+2 - Cadastrar Evento
+3 - Editar Evento
+4 - Deletar Evento
+0 - Voltar
+
+Escolha: """).strip()
+
+        if opcao == "1":
+            listar_eventos()
+        elif opcao == "2":
+            cadastrar_evento()
+        elif opcao == "3":
+            editar_evento()
+        elif opcao == "4":
+            deletar_evento()
+        elif opcao == "0":
+            break
+        else:
+            print("Comando inválido, tente novamente...")
+
+
+def menu_adm():
     while True:
         opcao = input("""\n============================================================
 
@@ -187,34 +668,40 @@ def menu_dev():
                   
 1 - Usuários
 2 - Eventos
+3 - Cursos
 0 - Sair
 
 Escolha: """).strip()
-    
+
         if opcao == "1":
-            print("Gerenciamento de Usuários")
+            menu_usuarios_adm()
         elif opcao == "2":
             print("Gerenciamento de Eventos")
+        elif opcao == "3":
+            menu_cursos_adm()
         elif opcao == "0":
             break
         else:
             print("Comando inválido, tente novamente...")
 
+
 def menu_user():
     print("menu_usuario")
+
 
 def login():
 
     global id_logado
 
     while True:
-        
+
         print("\n==== Login ====\n")
         email = input("- Email: ").strip()
         senha = input("- Senha: ").strip()
 
         if email == "ADM" and senha == "123":
-            menu_dev()
+            menu_adm()
+            return
         else:
             for id, usuario in usuarios.items():
                 if usuario["email"] == email and usuario["senha"] == senha:
@@ -222,7 +709,8 @@ def login():
                     menu_user()
                     return
         print("Email ou Senha inválidos, tente novamente...")
-        
+
+
 def menu_inicial():
     """
     Exibe o menu principal em loop e direciona para as funcionalidades do sistema.
@@ -245,7 +733,6 @@ def menu_inicial():
 0 - Sair
             
 Escolha: """).strip()
-        
 
         if opcao == "1":
             cadastrar()
@@ -255,6 +742,7 @@ Escolha: """).strip()
             break  # Encerra o loop e finaliza o programa
         else:
             print("Comando inválido, tente novamente...")
+
 
 # Ponto de entrada do programa
 menu_inicial()
