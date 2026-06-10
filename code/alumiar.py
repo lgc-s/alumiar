@@ -48,11 +48,12 @@ def validar_e_calcular_idade(data_str):
     try:
         # Tenta converter a string no formato de data brasileira
         data_nascimento = datetime.strptime(data_str, "%d/%m/%Y").date()
-        hoje = date.today() # Pega a data exata de hoje no calendário do PC
-        
+        hoje = date.today()  # Pega a data exata de hoje no calendário do PC
+
         # Cálculo exato da idade considerando o mês e o dia atual
-        idade = hoje.year - data_nascimento.year - ((hoje.month, hoje.day) < (data_nascimento.month, data_nascimento.day))
-        
+        idade = hoje.year - data_nascimento.year - \
+            ((hoje.month, hoje.day) < (data_nascimento.month, data_nascimento.day))
+
         # Mantém a sua regra de negócio original (idade entre 1 e 120 anos)
         if 1 <= idade <= 120:
             return idade
@@ -126,7 +127,7 @@ def cadastrar():
     while True:
         data_nasci_input = input("- Data de Nascimento (DD/MM/AAAA): ").strip()
         idade_calculada = validar_e_calcular_idade(data_nasci_input)
-        
+
         if idade_calculada is not False:
             break  # Data válida e idade dentro do limite!
         print("Data inválida ou idade fora do permitido (1-120 anos). Tente novamente...\n")
@@ -379,7 +380,8 @@ def cadastrar_curso():
         "titulo": titulo,
         "tutor": tutor,
         "duracao": duracao,
-        "vagas": vagas
+        "vagas": vagas,
+        "inscritos": []
     }
 
     # Adiciona o curso à lista de cursos
@@ -685,6 +687,7 @@ Escolha: """).strip()
         else:
             print("Comando inválido, tente novamente...")
 
+
 def ver_perfil():
     """Exibe as informações do usuário logado."""
     usuario = usuarios[id_logado]
@@ -742,7 +745,8 @@ def atualizar_perfil():
 
     # ── Formalização ──────────────────────────────────────────────────────────
     while True:
-        novo = input(f"- Formalizada? (S/N) [{u['formalizacao']}]: ").strip().upper()
+        novo = input(
+            f"- Formalizada? (S/N) [{u['formalizacao']}]: ").strip().upper()
         if not novo:
             break
         if novo in ("S", "N"):
@@ -799,6 +803,7 @@ Escolha: """).strip()
         else:
             print("Comando inválido, tente novamente...")
 
+
 def pesquisar_artesa():
     """Busca artesãs pelo nome, aceitando termos parciais."""
     if not usuarios:
@@ -851,18 +856,126 @@ Escolha: """).strip()
         else:
             print("Comando inválido, tente novamente...")
 
+
 def menu_eventos():
     print("Menu Eventos")
 
+
+def listar_cursos_usuario():
+    if not cursos:
+        print("\nNenhum curso disponível.")
+        return
+    print("\n=== CURSOS DISPONÍVEIS ===")
+    for indice, curso in enumerate(cursos):
+        inscritos = curso.get('inscritos', [])
+        vagas_disponiveis = curso['vagas'] - len(inscritos)
+        print(f"""
+ID: {indice + 1}
+  Título:    {curso['titulo']}
+  Tutor:     {curso['tutor']}
+  Duração:   {curso['duracao']}
+  Vagas:     {vagas_disponiveis}/{curso['vagas']}""")
+
+
+def pesquisar_curso():
+    if not cursos:
+        print("\nNenhum curso disponível.")
+        return
+
+    termo = input("\nDigite o nome do curso: ").strip().lower()
+
+    resultados = [
+        (indice, curso) for indice, curso in enumerate(cursos)
+        if termo in curso['titulo'].lower()
+    ]
+
+    if not resultados:
+        print("\nNenhum curso encontrado.")
+        return
+
+    print(f"\n{len(resultados)} resultado(s) encontrado(s):")
+    for indice, curso in resultados:
+        inscritos = curso.get('inscritos', [])
+        vagas_disponiveis = curso['vagas'] - len(inscritos)
+        print(f"""
+ID: {indice + 1}
+  Título:    {curso['titulo']}
+  Tutor:     {curso['tutor']}
+  Duração:   {curso['duracao']}
+  Vagas:     {vagas_disponiveis}/{curso['vagas']}""")
+
+
+def inscrever_curso():
+    if not cursos:
+        print("\nNenhum curso disponível.")
+        return
+
+    listar_cursos_usuario()
+
+    try:
+        id_curso = int(input("\nID do curso para inscrição: ").strip())
+        indice = id_curso - 1
+    except ValueError:
+        print("ID inválido.")
+        return
+
+    if indice < 0 or indice >= len(cursos):
+        print("Curso não encontrado.")
+        return
+
+    curso = cursos[indice]
+
+    if 'inscritos' not in curso:
+        curso['inscritos'] = []
+
+    if id_logado in curso['inscritos']:
+        print(f"\nVocê já está inscrito em '{curso['titulo']}'.")
+        return
+
+    vagas_disponiveis = curso['vagas'] - len(curso['inscritos'])
+    if vagas_disponiveis <= 0:
+        print(f"\nO curso '{curso['titulo']}' não possui vagas disponíveis.")
+        return
+
+    curso['inscritos'].append(id_logado)
+    print(f"\nInscrição realizada com sucesso em '{curso['titulo']}'!")
+    print(f"Vagas restantes: {vagas_disponiveis - 1}/{curso['vagas']}")
+
+
 def menu_cursos():
-    print("Menu Cursos")
+    while True:
+        opcao = input("""\n============================================================
+
+                ALUMIAR APP (Cursos)
+
+============================================================
+
+1 - Ver todos os cursos
+2 - Pesquisar por nome
+3 - Inscrever-se em um curso
+0 - Voltar
+
+Escolha: """).strip()
+
+        if opcao == "1":
+            listar_cursos_usuario()
+        elif opcao == "2":
+            pesquisar_curso()
+        elif opcao == "3":
+            inscrever_curso()
+        elif opcao == "0":
+            break
+        else:
+            print("Comando inválido, tente novamente...")
+
 
 def calcular_valor_hora():
     print("\n=== CÁLCULO DO VALOR DA HORA ===")
 
     while True:
         try:
-            renda_desejada = float(input("Quanto deseja ganhar por mês (R$)? "))
+            renda_desejada = float(
+                input("Quanto deseja ganhar por mês (R$)? "))
             if renda_desejada <= 0:
                 print("  O valor deve ser maior que zero...")
                 continue
@@ -919,9 +1032,11 @@ def cadastrar_materiais():
         materiais.append((nome, valor))
         total_materiais += valor
 
-        continuar = input("Deseja adicionar outro material? (s/n): ").strip().lower()
+        continuar = input(
+            "Deseja adicionar outro material? (s/n): ").strip().lower()
         while continuar not in ("s", "n"):
-            continuar = input("  Resposta inválida, digite s ou n: ").strip().lower()
+            continuar = input(
+                "  Resposta inválida, digite s ou n: ").strip().lower()
 
         if continuar == "n":
             break
@@ -961,7 +1076,8 @@ def calculadora_precos():
     tempo_gasto = horas + (minutos / 60)
 
     print("\n=== MÃO DE OBRA ===")
-    resposta = input("Você já sabe o valor da sua hora de trabalho? (s/n): ").strip().lower()
+    resposta = input(
+        "Você já sabe o valor da sua hora de trabalho? (s/n): ").strip().lower()
 
     if resposta == "s":
         while True:
@@ -1020,12 +1136,12 @@ def calculadora_precos():
             print("  Valor inválido, digite apenas números...")
 
     # Cálculos
-    valor_mao_obra    = tempo_gasto * valor_hora
-    custo_total       = total_materiais + valor_mao_obra + custos_extras
-    lucro             = custo_total * (margem_lucro / 100)
-    preco_sugerido    = custo_total + lucro
+    valor_mao_obra = tempo_gasto * valor_hora
+    custo_total = total_materiais + valor_mao_obra + custos_extras
+    lucro = custo_total * (margem_lucro / 100)
+    preco_sugerido = custo_total + lucro
     preco_recomendado = preco_sugerido * 1.10
-    preco_premium     = preco_sugerido * 1.20
+    preco_premium = preco_sugerido * 1.20
 
     # Resultado
     print("\n================================")
@@ -1051,8 +1167,10 @@ def calculadora_precos():
     print(f"Valor da hora:        R$ {valor_hora:.2f}")
     print(f"Margem de lucro:      {margem_lucro:.0f}%")
 
+
 def forum_apoio():
     print("Fórum de Apoio")
+
 
 def menu_user():
     while True:
@@ -1074,7 +1192,7 @@ Escolha: """).strip()
 
         if opcao == "1":
             menu_perfil()
-        if opcao == "2":
+        elif opcao == "2":
             menu_artesas()
         elif opcao == "3":
             menu_eventos()
@@ -1114,10 +1232,11 @@ def login():
         continuar = input("Tentar novamente? [S/N]: \n").strip().upper()
         while continuar not in ("S", "N"):
             continuar = input(
-            "Resposta Inválida, tente novamente...\n- Tentar novamente? [S/N]): ").strip().upper()
-            
-        if continuar == "N": 
+                "Resposta Inválida, tente novamente...\n- Tentar novamente? [S/N]): ").strip().upper()
+
+        if continuar == "N":
             break
+
 
 def menu_inicial():
     """
