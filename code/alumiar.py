@@ -677,7 +677,7 @@ Escolha: """).strip()
         if opcao == "1":
             menu_usuarios_adm()
         elif opcao == "2":
-            print("Gerenciamento de Eventos")
+            menu_eventos_adm()
         elif opcao == "3":
             menu_cursos_adm()
         elif opcao == "0":
