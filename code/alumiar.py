@@ -351,6 +351,17 @@ def deletar_usuario():
         f"\nDeletar '{nome}'? Essa ação é irreversível. (S/N): ").strip().upper()
 
     if confirmacao == "S":
+
+        # Remove o usuário de todos os cursos em que estava inscrito
+        for curso in cursos:
+            if id_del in curso.get('inscritos', []):
+                curso['inscritos'].remove(id_del)
+
+        # Remove o usuário de todos os eventos em que estava inscrito
+        for evento in eventos:
+            if id_del in evento.get('inscritos', []):
+                evento['inscritos'].remove(id_del)
+
         del usuarios[id_del]
         print(f"Usuário '{nome}' deletado com sucesso!")
     else:
@@ -709,7 +720,6 @@ def menu_adm():
 Escolha: """).strip()
 
         if opcao == "1":
-            print(usuarios)
             menu_usuarios_adm()
         elif opcao == "2":
             menu_eventos_adm()
