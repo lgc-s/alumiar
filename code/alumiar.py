@@ -709,6 +709,7 @@ def menu_adm():
 Escolha: """).strip()
 
         if opcao == "1":
+            print(usuarios)
             menu_usuarios_adm()
         elif opcao == "2":
             menu_eventos_adm()
