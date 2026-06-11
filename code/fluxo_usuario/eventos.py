@@ -2,16 +2,16 @@
 # GERENCIAMENTO DE EVENTOS (USUÁRIO)
 # ============================================================
 
-from dados.dados import eventos, id_logado
+import dados.dados
 
 
 def listar_eventos_usuario():
     """Exibe todos os eventos com vagas disponíveis."""
-    if not eventos:
+    if not dados.dados.eventos:
         print("\nNenhum evento disponível.")
         return
     print("\n=== EVENTOS DISPONÍVEIS ===")
-    for indice, evento in enumerate(eventos):
+    for indice, evento in enumerate(dados.dados.eventos):
         inscritos = evento.get('inscritos', [])
         vagas_disponiveis = evento['vagas'] - len(inscritos)
         print(f"""
@@ -25,14 +25,14 @@ ID: {indice + 1}
 
 def pesquisar_evento():
     """Busca um evento por nome."""
-    if not eventos:
+    if not dados.dados.eventos:
         print("\nNenhum evento disponível.")
         return
 
     termo = input("\nDigite o nome do evento: ").strip().lower()
 
     resultados = [
-        (indice, evento) for indice, evento in enumerate(eventos)
+        (indice, evento) for indice, evento in enumerate(dados.dados.eventos)
         if termo in evento['titulo'].lower()
     ]
 
@@ -55,9 +55,7 @@ ID: {indice + 1}
 
 def inscrever_evento():
     """Inscreve o usuário em um evento."""
-    import dados.dados as dados_module
-
-    if not eventos:
+    if not dados.dados.eventos:
         print("\nNenhum evento disponível.")
         return
 
@@ -70,16 +68,16 @@ def inscrever_evento():
         print("ID inválido.")
         return
 
-    if indice < 0 or indice >= len(eventos):
+    if indice < 0 or indice >= len(dados.dados.eventos):
         print("Evento não encontrado.")
         return
 
-    evento = eventos[indice]
+    evento = dados.dados.eventos[indice]
 
     if 'inscritos' not in evento:
         evento['inscritos'] = []
 
-    if dados_module.id_logado in evento['inscritos']:
+    if dados.dados.id_logado in evento['inscritos']:
         print(f"\nVocê já está inscrito em '{evento['titulo']}'.")
         return
 
@@ -88,7 +86,7 @@ def inscrever_evento():
         print(f"\nO evento '{evento['titulo']}' não possui vagas disponíveis.")
         return
 
-    evento['inscritos'].append(dados_module.id_logado)
+    evento['inscritos'].append(dados.dados.id_logado)
     print(f"\nInscrição realizada com sucesso em '{evento['titulo']}'!")
     print(f"Vagas restantes: {vagas_disponiveis - 1}/{evento['vagas']}")
 

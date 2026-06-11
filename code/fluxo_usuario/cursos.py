@@ -2,16 +2,16 @@
 # GERENCIAMENTO DE CURSOS (USUÁRIO)
 # ============================================================
 
-from dados.dados import cursos, id_logado
+import dados.dados
 
 
 def listar_cursos_usuario():
     """Exibe todos os cursos com vagas disponíveis."""
-    if not cursos:
+    if not dados.dados.cursos:
         print("\nNenhum curso disponível.")
         return
     print("\n=== CURSOS DISPONÍVEIS ===")
-    for indice, curso in enumerate(cursos):
+    for indice, curso in enumerate(dados.dados.cursos):
         inscritos = curso.get('inscritos', [])
         vagas_disponiveis = curso['vagas'] - len(inscritos)
         print(f"""
@@ -24,14 +24,14 @@ ID: {indice + 1}
 
 def pesquisar_curso():
     """Busca um curso por nome."""
-    if not cursos:
+    if not dados.dados.cursos:
         print("\nNenhum curso disponível.")
         return
 
     termo = input("\nDigite o nome do curso: ").strip().lower()
 
     resultados = [
-        (indice, curso) for indice, curso in enumerate(cursos)
+        (indice, curso) for indice, curso in enumerate(dados.dados.cursos)
         if termo in curso['titulo'].lower()
     ]
 
@@ -53,9 +53,7 @@ ID: {indice + 1}
 
 def inscrever_curso():
     """Inscreve o usuário em um curso."""
-    import dados.dados as dados_module
-
-    if not cursos:
+    if not dados.dados.cursos:
         print("\nNenhum curso disponível.")
         return
 
@@ -68,16 +66,16 @@ def inscrever_curso():
         print("ID inválido.")
         return
 
-    if indice < 0 or indice >= len(cursos):
+    if indice < 0 or indice >= len(dados.dados.cursos):
         print("Curso não encontrado.")
         return
 
-    curso = cursos[indice]
+    curso = dados.dados.cursos[indice]
 
     if 'inscritos' not in curso:
         curso['inscritos'] = []
 
-    if dados_module.id_logado in curso['inscritos']:
+    if dados.dados.id_logado in curso['inscritos']:
         print(f"\nVocê já está inscrito em '{curso['titulo']}'.")
         return
 
@@ -86,7 +84,7 @@ def inscrever_curso():
         print(f"\nO curso '{curso['titulo']}' não possui vagas disponíveis.")
         return
 
-    curso['inscritos'].append(dados_module.id_logado)
+    curso['inscritos'].append(dados.dados.id_logado)
     print(f"\nInscrição realizada com sucesso em '{curso['titulo']}'!")
     print(f"Vagas restantes: {vagas_disponiveis - 1}/{curso['vagas']}")
 

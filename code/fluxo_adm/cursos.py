@@ -2,7 +2,7 @@
 # GERENCIAMENTO DE CURSOS (ADMINISTRADOR)
 # ============================================================
 
-from dados.dados import cursos
+import dados.dados
 
 
 def cadastrar_curso():
@@ -33,7 +33,7 @@ def cadastrar_curso():
     }
 
     # Adiciona o curso à lista de cursos
-    cursos.append(curso)
+    dados.dados.cursos.append(curso)
 
     print("\nCurso cadastrado com sucesso!")
 
@@ -43,12 +43,12 @@ def listar_cursos():
     print("\n=== CURSOS DISPONÍVEIS ===")
 
     # Verifica se existem cursos cadastrados
-    if not cursos:
+    if not dados.dados.cursos:
         print("\nNenhum curso cadastrado.")
         return
 
     # Percorre a lista exibindo cada curso
-    for n, curso in enumerate(cursos, start=1):
+    for n, curso in enumerate(dados.dados.cursos, start=1):
 
         print(f"\nCurso {n}")
         print(f"Título: {curso['titulo']}")
@@ -62,7 +62,7 @@ def editar_curso():
     print("\n=== EDITAR CURSO ===")
 
     # Verifica se existe algum curso cadastrado
-    if len(cursos) == 0:
+    if len(dados.dados.cursos) == 0:
         print("Nenhum curso cadastrado.")
         return
 
@@ -73,17 +73,17 @@ def editar_curso():
     indice = int(input("\nDigite o número do curso: ")) - 1
 
     # Verifica se o índice informado é válido
-    if 0 <= indice < len(cursos):
+    if 0 <= indice < len(dados.dados.cursos):
 
         # Atualiza os dados do curso
-        cursos[indice]["titulo"] = input("Novo título: ")
-        cursos[indice]["tutor"] = input("Novo tutor: ")
-        cursos[indice]["duracao"] = input("Nova duração: ")
+        dados.dados.cursos[indice]["titulo"] = input("Novo título: ")
+        dados.dados.cursos[indice]["tutor"] = input("Novo tutor: ")
+        dados.dados.cursos[indice]["duracao"] = input("Nova duração: ")
         while True:
             try:
-                cursos[indice]["vagas"] = int(
+                dados.dados.cursos[indice]["vagas"] = int(
                     input("Nova quantidade de vagas: "))
-                if cursos[indice]["vagas"] < 0:
+                if dados.dados.cursos[indice]["vagas"] < 0:
                     print("A quantidade de vagas não pode ser negativa...")
                     continue
                 break
@@ -101,7 +101,7 @@ def excluir_curso():
     print("\n=== EXCLUIR CURSO ===")
 
     # Verifica se existem cursos cadastrados
-    if len(cursos) == 0:
+    if len(dados.dados.cursos) == 0:
         print("Nenhum curso cadastrado.")
         return
 
@@ -112,10 +112,10 @@ def excluir_curso():
     indice = int(input("\nDigite o número do curso: ")) - 1
 
     # Verifica se o índice informado é válido
-    if 0 <= indice < len(cursos):
+    if 0 <= indice < len(dados.dados.cursos):
 
         # Remove o curso da lista
-        cursos.pop(indice)
+        dados.dados.cursos.pop(indice)
 
         print("\nCurso removido com sucesso!")
 

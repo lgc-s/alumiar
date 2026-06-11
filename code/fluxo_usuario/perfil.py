@@ -2,16 +2,12 @@
 # GERENCIAMENTO DE PERFIL (USUÁRIO)
 # ============================================================
 
-from dados.dados import (
-    usuarios, validar_telefone, validar_e_calcular_idade,
-    validar_email, id_logado
-)
+import dados.dados
 
 
 def ver_perfil():
     """Exibe as informações do usuário logado."""
-    import dados.dados as dados_module
-    usuario = usuarios[dados_module.id_logado]
+    usuario = dados.dados.usuarios[dados.dados.id_logado]
     print(f"""
 === MEU PERFIL ===
 
@@ -26,8 +22,7 @@ Email:       {usuario['email']}""")
 
 def atualizar_perfil():
     """Permite ao usuário logado atualizar suas próprias informações."""
-    import dados.dados as dados_module
-    u = usuarios[dados_module.id_logado]
+    u = dados.dados.usuarios[dados.dados.id_logado]
     print(f"\nAtualizando perfil — Enter para manter o valor atual.\n")
 
     # ── Nome ──────────────────────────────────────────────────────────────────
@@ -40,7 +35,7 @@ def atualizar_perfil():
         novo = input(f"- Idade [{u['idade']}]: ").replace(" ", "")
         if not novo:
             break
-        if validar_e_calcular_idade(novo):
+        if dados.dados.validar_e_calcular_idade(novo):
             u['idade'] = novo
             break
         print("  Idade inválida, tente novamente...")
@@ -60,7 +55,7 @@ def atualizar_perfil():
         novo = input(f"- Telefone [{u['telefone']}]: ").replace(" ", "")
         if not novo:
             break
-        if validar_telefone(novo):
+        if dados.dados.validar_telefone(novo):
             u['telefone'] = novo
             break
         print("  Telefone inválido, tente novamente...")
@@ -81,12 +76,12 @@ def atualizar_perfil():
         novo = input(f"- Email [{u['email']}]: ").strip()
         if not novo:
             break
-        if not validar_email(novo):
+        if not dados.dados.validar_email(novo):
             print("  Email inválido, tente novamente...")
             continue
         duplicado = any(
-            dados['email'] == novo and uid != dados_module.id_logado
-            for uid, dados in usuarios.items()
+            dados['email'] == novo and uid != dados.dados.id_logado
+            for uid, dados in dados.dados.usuarios.items()
         )
         if duplicado:
             print("  Email já cadastrado, tente novamente...")

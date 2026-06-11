@@ -7,7 +7,7 @@ import dados.dados as dados_module
 from fluxo_usuario.menu_user import menu_user
 from fluxo_adm.menu_adm import menu_adm
 from fluxo_adm.usuarios import cadastrar
-from dados.dados import carregar_dados, salvar_dados, usuarios
+from dados.dados import carregar_dados, salvar_dados
 import sys
 import os
 
@@ -30,7 +30,7 @@ def login():
 
         # Login de usuário (artesã)
         else:
-            for id, usuario in usuarios.items():
+            for id, usuario in dados_module.usuarios.items():
                 if usuario["email"] == email and usuario["senha"] == senha:
                     dados_module.id_logado = id
                     menu_user()

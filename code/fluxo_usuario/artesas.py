@@ -2,15 +2,15 @@
 # VISUALIZAÇÃO DE ARTESÃS (USUÁRIO)
 # ============================================================
 
-from dados.dados import usuarios
+import dados.dados
 
 
 def listar_usuarios():
     """Exibe no terminal todos os usuários cadastrados com ID, nome e e-mail."""
-    if not usuarios:
+    if not dados.dados.usuarios:
         print("\n Nenhum usuário cadastrado.")
         return
-    for id, usuario in usuarios.items():
+    for id, usuario in dados.dados.usuarios.items():
         print(f"""
 ID: {id}
   Nome:        {usuario['nome']}
@@ -24,14 +24,14 @@ ID: {id}
 
 def pesquisar_artesa():
     """Busca artesãs pelo nome, aceitando termos parciais."""
-    if not usuarios:
+    if not dados.dados.usuarios:
         print("\nNenhuma artesã cadastrada.")
         return
 
     termo = input("\nDigite o nome a pesquisar: ").strip().lower()
 
     resultados = [
-        usuario for usuario in usuarios.values()
+        usuario for usuario in dados.dados.usuarios.values()
         if termo in usuario['nome'].lower()
     ]
 

@@ -2,15 +2,15 @@
 # GERENCIAMENTO DE EVENTOS (ADMINISTRADOR)
 # ============================================================
 
-from dados.dados import eventos
+import dados.dados
 
 
 def listar_eventos():
     """Exibe todos os eventos cadastrados."""
-    if not eventos:
+    if not dados.dados.eventos:
         print("\nNenhum evento cadastrado.")
         return
-    for indice, evento in enumerate(eventos):
+    for indice, evento in enumerate(dados.dados.eventos):
         print(f"""
 ID: {indice + 1}
   Título:  {evento['titulo']}
@@ -39,7 +39,7 @@ def cadastrar_evento():
         except ValueError:
             print("  Quantidade inválida, digite apenas números inteiros...")
 
-    eventos.append({
+    dados.dados.eventos.append({
         "titulo":  titulo,
         "data":    data,
         "horario": horario,
@@ -53,7 +53,7 @@ def cadastrar_evento():
 
 def editar_evento():
     """Edita os dados de um evento existente."""
-    if not eventos:
+    if not dados.dados.eventos:
         print("\nNenhum evento cadastrado.")
         return
 
@@ -66,11 +66,11 @@ def editar_evento():
         print("ID inválido.")
         return
 
-    if indice < 0 or indice >= len(eventos):
+    if indice < 0 or indice >= len(dados.dados.eventos):
         print("Evento não encontrado.")
         return
 
-    e = eventos[indice]
+    e = dados.dados.eventos[indice]
     print(f"\nEditando '{e['titulo']}' — Enter para manter o valor atual.\n")
 
     novo = input(f"- Título [{e['titulo']}]: ").strip()
@@ -108,7 +108,7 @@ def editar_evento():
 
 def deletar_evento():
     """Deleta um evento da lista."""
-    if not eventos:
+    if not dados.dados.eventos:
         print("\nNenhum evento cadastrado.")
         return
 
@@ -121,16 +121,16 @@ def deletar_evento():
         print("ID inválido.")
         return
 
-    if indice < 0 or indice >= len(eventos):
+    if indice < 0 or indice >= len(dados.dados.eventos):
         print("Evento não encontrado.")
         return
 
-    titulo = eventos[indice]['titulo']
+    titulo = dados.dados.eventos[indice]['titulo']
     confirmacao = input(
         f"\nDeletar '{titulo}'? Essa ação é irreversível. (S/N): ").strip().upper()
 
     if confirmacao == "S":
-        eventos.pop(indice)
+        dados.dados.eventos.pop(indice)
         print(f"Evento '{titulo}' deletado com sucesso!")
     else:
         print("Operação cancelada.")
