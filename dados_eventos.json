@@ -5,7 +5,11 @@
     "horario": "09:00",
     "local": "Marco Zero",
     "vagas": 50,
-    "inscritos": [1, 2, 3]
+    "inscritos": [
+      1,
+      2,
+      3
+    ]
   },
   {
     "titulo": "Roda De Conversa: Precificação",
@@ -13,7 +17,9 @@
     "horario": "14:00",
     "local": "Casa Da Cultura",
     "vagas": 20,
-    "inscritos": [2]
+    "inscritos": [
+      2
+    ]
   },
   {
     "titulo": "Workshop De Fotografia Para Artesãs",
@@ -21,6 +27,8 @@
     "horario": "10:00",
     "local": "Bairro Do Recife",
     "vagas": 1,
-    "inscritos": [3]
+    "inscritos": [
+      3
+    ]
   }
 ]

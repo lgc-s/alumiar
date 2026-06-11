@@ -4,7 +4,10 @@
     "tutor": "Conceição Ferreira",
     "duracao": "8 horas",
     "vagas": 10,
-    "inscritos": [1, 2]
+    "inscritos": [
+      1,
+      2
+    ]
   },
   {
     "titulo": "Crochê Do Zero",
@@ -18,6 +21,9 @@
     "tutor": "Paulo Mendes",
     "duracao": "16 horas",
     "vagas": 2,
-    "inscritos": [1, 3]
+    "inscritos": [
+      1,
+      3
+    ]
   }
 ]
