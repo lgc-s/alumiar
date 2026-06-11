@@ -1,0 +1,23 @@
+[
+  {
+    "titulo": "Introdução Ao Bordado",
+    "tutor": "Conceição Ferreira",
+    "duracao": "8 horas",
+    "vagas": 10,
+    "inscritos": [1, 2]
+  },
+  {
+    "titulo": "Crochê Do Zero",
+    "tutor": "Rosana Lima",
+    "duracao": "12 horas",
+    "vagas": 5,
+    "inscritos": []
+  },
+  {
+    "titulo": "Técnicas De Cerâmica",
+    "tutor": "Paulo Mendes",
+    "duracao": "16 horas",
+    "vagas": 2,
+    "inscritos": [1, 3]
+  }
+]

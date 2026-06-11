@@ -5,6 +5,8 @@
 # ============================================================
 
 from re import fullmatch
+import json
+import os
 from datetime import datetime, date
 
 # Dicionário principal que armazena todos os usuários cadastrados.
@@ -19,6 +21,35 @@ id = 1
 # Variável global que armazena o ID registrado durante após login
 id_logado = None
 
+def salvar_dados():
+    with open('dados_usuarios.json', 'w', encoding='utf-8') as f:
+        json.dump({"id": id, "usuarios": usuarios}, f, ensure_ascii=False, indent=2)
+
+    with open('dados_cursos.json', 'w', encoding='utf-8') as f:
+        json.dump(cursos, f, ensure_ascii=False, indent=2)
+
+    with open('dados_eventos.json', 'w', encoding='utf-8') as f:
+        json.dump(eventos, f, ensure_ascii=False, indent=2)
+
+    print("\nDados salvos com sucesso!")
+
+
+def carregar_dados():
+    global id, usuarios, cursos, eventos
+
+    if os.path.exists('dados_usuarios.json'):
+        with open('dados_usuarios.json', 'r', encoding='utf-8') as f:
+            dados = json.load(f)
+            id = dados["id"]
+            usuarios = {int(k): v for k, v in dados["usuarios"].items()}
+
+    if os.path.exists('dados_cursos.json'):
+        with open('dados_cursos.json', 'r', encoding='utf-8') as f:
+            cursos = json.load(f)
+
+    if os.path.exists('dados_eventos.json'):
+        with open('dados_eventos.json', 'r', encoding='utf-8') as f:
+            eventos = json.load(f)
 
 def validar_telefone(telefone):
     """
@@ -1292,7 +1323,6 @@ def menu_user():
 3 - Eventos
 4 - Cursos
 5 - Calculadora de Preços
-6 - Fórum de Apoio
 0 - Sair
 
 Escolha: """).strip()
@@ -1307,8 +1337,6 @@ Escolha: """).strip()
             menu_cursos()
         elif opcao == "5":
             calculadora_precos()
-        elif opcao == "6":
-            forum_apoio()
         elif opcao == "0":
             break
         else:
@@ -1354,6 +1382,7 @@ def menu_inicial():
         2 - Login
         0 - Encerrar o programa
     """
+    carregar_dados()
     while True:
 
         opcao = input("""\n============================================================
@@ -1373,6 +1402,7 @@ Escolha: """).strip()
         elif opcao == "2":
             login()
         elif opcao == "0":
+            salvar_dados()
             break  # Encerra o loop e finaliza o programa
         else:
             print("Comando inválido, tente novamente...")

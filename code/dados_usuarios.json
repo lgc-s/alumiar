@@ -1,0 +1,35 @@
+{
+  "id": 4,
+  "usuarios": {
+    "1": {
+      "nome": "Ana Silva",
+      "idade": 34,
+      "tipo_artesanato": "Bordado",
+      "bairro": "Boa Viagem",
+      "telefone": "81991110001",
+      "formalizacao": "S",
+      "email": "ana.silva@gmail.com",
+      "senha": "123"
+    },
+    "2": {
+      "nome": "Maria Santos",
+      "idade": 28,
+      "tipo_artesanato": "Crochê",
+      "bairro": "Aflitos",
+      "telefone": "81992220002",
+      "formalizacao": "N",
+      "email": "maria.santos@outlook.com",
+      "senha": "123"
+    },
+    "3": {
+      "nome": "Julia Costa",
+      "idade": 45,
+      "tipo_artesanato": "Cerâmica",
+      "bairro": "Casa Forte",
+      "telefone": "81993330003",
+      "formalizacao": "S",
+      "email": "julia.costa@yahoo.com.br",
+      "senha": "123"
+    }
+  }
+}
