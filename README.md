@@ -1,4 +1,4 @@
-<div align=" center">
+<div align="center">
     <img src="banner.png" alt="banner"></img>
 </div>
 
@@ -49,12 +49,12 @@
 
 
 <h3>Tecnologias Utilizadas</h3>
-<div style="padding-left: 32px">
-    <li><b>Linguagem:</b> Python 3.x</li>
-    <li><b>Interface:</b> Linha de Comando (CLI) / Terminal</li>
-    <li><b>IDE:</b> Visual Studio Code</li>
-    <li><b>Repositório:</b> GitHub</li>
-</div>
+
+* <b>Linguagem:</b> Python 3.x
+* <b>Interface:</b> Linha de Comando (CLI) / Terminal
+* <b>IDE:</b> Visual Studio Code
+* <b>Repositório:</b> GitHub
+
 
 
 <h2>Estrutura do Menu e Fluxos</h2>
@@ -64,27 +64,26 @@
 <h3>Fluxo do Administrador</h3> 
 <p>Perfil voltado para a gestão e manutenção dos dados do sistema:<p>
 
-<div style="padding-left: 32px">
-    <li>Adicionar eventos</li>
-    <li>Atualizar eventos</li>
-    <li>Excluir eventos</li>
-    <li>Adicionar artesãs</li>
-    <li>Atualizar artesãs</li>
-    <li>Excluir artesãs</li>
-</div>
+
+* Adicionar eventos
+* Atualizar eventos
+* Excluir eventos
+* Adicionar artesãs
+* Atualizar artesãs
+* Excluir artesãs
+
 
 
 <h3>Fluxo da Artesã</h3>
 
 <p>Perfil focado em utilitários e consulta de oportunidades.<p>
 
-<div style="padding-left: 32px">
-    <li>Realizar cadastro</li>
-    <li>Visualizar lista de artesãs</li>
-    <li>Buscar artesã por nome</li>
-    <li>Editar próprio cadastro</li>
-    <li>Remover cadastro</li>
-    <li>Utilizar calculadora de precificação</li>
-    <li>Visualizar eventos e feiras futuros</li>
-    <li>Sair do sistema</li>
-</div>
+
+* Realizar cadastro
+* Visualizar lista de artesãs
+* Buscar artesã por nome
+* Editar próprio cadastro
+* Remover cadastro
+* Utilizar calculadora de precificação
+* Visualizar eventos e feiras futuros
+* Sair do sistema
