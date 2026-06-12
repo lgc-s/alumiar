@@ -136,7 +136,7 @@ def editar_usuario():
         if not novo:
             break
         if dados.dados.validar_e_calcular_idade(novo):
-            u['idade'] = novo
+            u['idade'] = dados.dados.validar_e_calcular_idade(novo)
             break
         print("  Idade inválida, tente novamente...")
 
