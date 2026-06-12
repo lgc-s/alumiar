@@ -97,6 +97,31 @@ def atualizar_perfil():
     print(f"\nPerfil atualizado com sucesso!")
 
 
+def excluir_perfil():
+    """Permite ao usuário excluir sua própria conta."""
+    usuario = dados.dados.usuarios[dados.dados.id_logado]
+    print(f"\nATENÇÃO: Você está prestes a excluir permanentemente sua conta!")
+    print(f"Nome: {usuario['nome']}")
+    print(f"Email: {usuario['email']}\n")
+
+    confirmacao = input(
+        "Digite 'CONFIRMAR' para excluir sua conta: ").strip().upper()
+
+    if confirmacao == "CONFIRMAR":
+        # Remove o usuário do dicionário
+        del dados.dados.usuarios[dados.dados.id_logado]
+
+        # Limpa a variável de ID logado
+        dados.dados.id_logado = None
+
+        print("\n✓ Sua conta foi excluída com sucesso!")
+        print("Retornando ao menu inicial...\n")
+        return True  # Indica que deve sair do fluxo de usuários
+    else:
+        print("\n✗ Exclusão cancelada.")
+        return False
+
+
 def menu_perfil():
     """Submenu de perfil do usuário."""
     while True:
@@ -108,6 +133,7 @@ def menu_perfil():
 
 1 - Ver meu perfil
 2 - Atualizar informações
+3 - Excluir minha conta
 0 - Voltar
 
 Escolha: """).strip()
@@ -116,6 +142,9 @@ Escolha: """).strip()
             ver_perfil()
         elif opcao == "2":
             atualizar_perfil()
+        elif opcao == "3":
+            if excluir_perfil():
+                return True  # Retorna True para sinalizar que deve sair do fluxo
         elif opcao == "0":
             break
         else:

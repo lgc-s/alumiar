@@ -8,12 +8,6 @@ from fluxo_usuario.menu_user import menu_user
 from fluxo_adm.menu_adm import menu_adm
 from fluxo_adm.usuarios import cadastrar
 from dados.dados import carregar_dados, salvar_dados
-import sys
-import os
-
-# Ajusta o path para permitir imports relativos
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
 
 def login():
     """Realiza o login do usuário (artesã ou administrador)."""

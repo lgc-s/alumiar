@@ -28,7 +28,10 @@ def menu_user():
 Escolha: """).strip()
 
         if opcao == "1":
-            menu_perfil()
+            excluir = menu_perfil()
+            # Se o perfil foi excluído, sai do fluxo de usuários
+            if excluir is True:
+                break
         elif opcao == "2":
             menu_artesas()
         elif opcao == "3":

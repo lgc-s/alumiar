@@ -36,7 +36,7 @@ eventos = []
 # Contador global de ID, incrementado a cada novo cadastro
 id = 1
 
-# Variável global que armazena o ID registrado durante após login
+# Variável global que armazena o ID registrado após login
 id_logado = None
 
 
