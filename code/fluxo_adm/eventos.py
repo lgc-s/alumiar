@@ -96,12 +96,13 @@ def editar_evento():
                 break
             novo = int(novo)
             if novo <= 0:
-                print("  A quantidade deve ser maior que zero...")
+                print("A quantidade deve ser maior que zero...")
                 continue
-            e['vagas'] = novo
-            break
+            else:
+                e['vagas'] = novo
+                break
         except ValueError:
-            print("  Quantidade inválida, digite apenas números inteiros...")
+            print("Quantidade inválida, digite apenas números inteiros...")
 
     print(f"\nEvento '{e['titulo']}' atualizado com sucesso!")
 

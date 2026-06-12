@@ -81,8 +81,7 @@ def editar_curso():
         dados.dados.cursos[indice]["duracao"] = input("Nova duração: ")
         while True:
             try:
-                dados.dados.cursos[indice]["vagas"] = int(
-                    input("Nova quantidade de vagas: "))
+                dados.dados.cursos[indice]["vagas"] = int(input("Nova quantidade de vagas: "))
                 if dados.dados.cursos[indice]["vagas"] < 0:
                     print("A quantidade de vagas não pode ser negativa...")
                     continue
@@ -108,8 +107,13 @@ def excluir_curso():
     # Exibe a lista de cursos
     listar_cursos()
 
-    # Solicita o número do curso que será removido
-    indice = int(input("\nDigite o número do curso: ")) - 1
+    # Solicita o número do curso que será excluído
+    while True:
+        try:
+            indice = int(input("\nDigite o número do curso: ")) - 1
+            break
+        except ValueError:
+            print("Índice inválido, digite apenas números inteiros...")
 
     # Verifica se o índice informado é válido
     if 0 <= indice < len(dados.dados.cursos):

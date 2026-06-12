@@ -113,13 +113,13 @@ def validar_e_calcular_idade(data_str):
         hoje = date.today()  # Pega a data exata de hoje no calendário do PC
 
         # Cálculo exato da idade considerando o mês e o dia atual
-        idade = hoje.year - data_nascimento.year - \
-            ((hoje.month, hoje.day) < (data_nascimento.month, data_nascimento.day))
+        idade = hoje.year - data_nascimento.year - ((hoje.month, hoje.day) < (data_nascimento.month, data_nascimento.day))
 
-        # Mantém a sua regra de negócio original (idade entre 1 e 120 anos)
+        # Mantém a idade entre 1 e 120 anos
         if 1 <= idade <= 120:
             return idade
-        return False
+        else:
+            return False
     except ValueError:
         # Se o usuário digitar letras ou uma data inválida (ex: 30/02/2000)
         return False

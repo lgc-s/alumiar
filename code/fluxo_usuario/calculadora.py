@@ -94,7 +94,7 @@ def calculadora_precos():
         try:
             horas = int(input("Horas gastas (sem os minutos): "))
             if horas < 0:
-                print("  O valor não pode ser negativo...")
+                print("O valor não pode ser negativo...")
                 continue
             break
         except ValueError:
@@ -104,7 +104,7 @@ def calculadora_precos():
         try:
             minutos = int(input("Minutos adicionais: "))
             if minutos < 0 or minutos > 59:
-                print("  Digite um valor entre 0 e 59...")
+                print("Digite um valor entre 0 e 59...")
                 continue
             break
         except ValueError:
@@ -121,28 +121,28 @@ def calculadora_precos():
             try:
                 valor_hora = float(input("Informe o valor da sua hora (R$): "))
                 if valor_hora <= 0:
-                    print("  O valor deve ser maior que zero...")
+                    print("O valor deve ser maior que zero...")
                     continue
                 break
             except ValueError:
-                print("  Valor inválido, digite apenas números...")
+                print("Valor inválido, digite apenas números...")
     else:
         print("\nVocê não sabe o valor da sua hora.")
 
         while True:
             try:
                 opcao = int(input(
-                    "\nEscolha uma opção:\n"
+                    "Escolha uma opção:\n"
                     "1 - Utilizar a média sugerida pelo Alumiar (R$ 15,00/h)\n"
                     "2 - Calcular meu valor da hora\n"
                     "Opção: "
                 ))
                 if opcao not in (1, 2):
-                    print("  Digite 1 ou 2...")
+                    print("Digite 1 ou 2...")
                     continue
                 break
             except ValueError:
-                print("  Valor inválido, digite apenas números inteiros...")
+                print("Valor inválido, digite apenas números inteiros...")
 
         if opcao == 1:
             valor_hora = 15.0
@@ -156,21 +156,21 @@ def calculadora_precos():
         try:
             custos_extras = float(input("Informe os custos extras (R$): "))
             if custos_extras < 0:
-                print("  O valor não pode ser negativo...")
+                print("O valor não pode ser negativo...")
                 continue
             break
         except ValueError:
-            print("  Valor inválido, digite apenas números...")
+            print("Valor inválido, digite apenas números...")
 
     while True:
         try:
             margem_lucro = float(input("Margem de lucro desejada (%): "))
             if margem_lucro < 0:
-                print("  A margem não pode ser negativa...")
+                print("A margem não pode ser negativa...")
                 continue
             break
         except ValueError:
-            print("  Valor inválido, digite apenas números...")
+            print("Valor inválido, digite apenas números...")
 
     # Cálculos
     valor_mao_obra = tempo_gasto * valor_hora
